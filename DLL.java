@@ -1,17 +1,128 @@
+public class DLL<E> {
 
-
-public class DLL {
-
-    private Node head;
-    private Node tail;
+    private Node<E> head;
+    private Node<E> tail;
     private int counter;
 
-    public DLL() {
+    //constructor
+    public DLL<E>() {
         head = null;
         tail = null;
-    } //LinkedList
+        counter = 0;
+    } //DLL<E>
 
+    //1
+    public int size() {
+        int size = 0;
+        if (head == null) {
+            return size;
+        } //if
+        while (head != null) {
+            size++;
+            head = head.next;
+        } //while
+        return size;
+    } //size
 
+    //2
+    public boolean isEmpty() {
+        boolean empty = false;
+        if (head == null || head.next == tail || tail.prev == head) {
+            rempty = true;
+        } //if
+        return empty;
+    } //isEmpty
 
+    //3
+    public E first() {
+        return head;
+    } //first
+
+    //4
+    public E last() {
+        return tail;
+    } //first
+
+    //5
+    public void addFirst(E element) {
+        Node<E> temp = new Node<E>();
+        temp.element = element;
+        temp.next = null;
+        temp.prev = null;
+        if (head == null) { //should i call isEmpty() in the if statement instead?
+            head = temp;
+        } else {
+            head.prev = temp;
+            temp.next = head;
+            head = temp;
+        } //else
+    } //adFirst
+
+    //6
+    public void addLast(E element) {
+        Node <E> tmep = new Node<E>();
+        temp.element = element;
+        temp.next = null;
+        temp.prev = null;
+        if (head == null) { //should i call isEmpty() in the if statement instead here too?
+            head = temp;
+        } else {
+            tail.next = temp;
+            temp.prev = tail;
+            tail = temp;
+        } //else
+    } //addLast
+
+    //7
+    public E removeFirst() {
+        E first = head.element;
+        Node<E> temp = new Node<E>();
+        temp = head;
+        head = head.next;
+        temp = null;
+        head.prev = null;
+        return first;
+    } //removeFirst
+
+    //8
+    public E removeLast() {
+        E last = tail.element;
+        Node<E> temp = new Node<E>();
+        temp = tail;
+        tail = tail.prev;
+        temp = null;
+        tail.next = null;
+    } //removeLast
+
+    //9
+    public String toString() {
+        String list = "null";
+        if (head == null) { //should i call isEmpty() here?
+            return list;
+        } //if
+        E temp = head.element;
+        list += "<--";
+        while (temp != tail.element) {
+            list += String.valueOf(temp);
+            head = head.next;
+            temp = head.element;
+            list += "<-->";
+        } //while
+        list += String.valueOf(tail.element);
+        list += "--> null";
+        return list;
+    } //toString
+
+    //12
+    public void insert (int index, E element) {
+        int size = size();
+        if (index == 0) {
+            addFirst(element);
+        } else if (index == (size - 1)) {
+            addLast(element);
+        } else {
+
+        } //else
+    } //insert
 
 } //DLL
