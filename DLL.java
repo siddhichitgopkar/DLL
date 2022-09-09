@@ -121,8 +121,32 @@ public class DLL<E> {
         } else if (index == (size - 1)) {
             addLast(element);
         } else {
-
+            Node<E> temp = new Node<E>();
+            Node<E> after = new Node<E>();
+            Node<E> prev = new Node<E>();
+            for (int i = 0; i < index; i++) {
+                head = head.next;
+            } //for
+            prev = head;
+            after = head.next;
+            prev.next = temp;
+            temp.prev = prev;
+            temp.next = after;
+            after.prev = temp;
         } //else
     } //insert
+
+    //13
+    public E get(int index) {
+        int size = size();
+        if (index > size - 1) {
+            return null;
+        } //if
+        for (int i = 0; i < index; i++) {
+            head = head.next;
+        } //for
+        return head.element;
+
+    } //get
 
 } //DLL
