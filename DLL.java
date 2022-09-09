@@ -29,7 +29,7 @@ public class DLL<E> {
 	} // setElement
 
 	public E getElement() {
-	    this.element != null ? return this.element : System.out.println("this.element = NULL"); 
+	    return this.element; 
 	} // getElement
 
 	public void setPrev(Node<E> prev) {
@@ -37,7 +37,7 @@ public class DLL<E> {
 	} // setPrev
 
 	public Node<E> getPrev() {
-	    this.prev != null ? return this.prev : System.out.println("this.prev = NULL");
+	    return this.prev;
 	} // getPrev
 	
 	public void setNext(Node<E> next) {
@@ -45,7 +45,7 @@ public class DLL<E> {
 	} // setNext
 
 	public Node<E> getNext() {
-	    this.next != null ? return this.next : System.out.println("this.next = NULL");
+	    return this.next;
 	} // getNext
 	
     } // Node<E>
