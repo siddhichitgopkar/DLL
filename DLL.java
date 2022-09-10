@@ -1,5 +1,55 @@
 public class DLL<E> {
 
+    public class Node<E> {
+
+	private E element;
+	private Node<E> prev;
+	private Node<E> next;
+
+	public Node<E>() {
+	    this.element = null;
+	    this.prev = null;
+	    this.next = null;
+	} // Node<E>()
+
+	public Node<E>(E element) {
+	    this.element = element;
+	    this.prev = null;
+	    this.next = null;
+	} // Node<E>(E element)
+
+	public Node<E>(E element, Node<E> prev, Node<E> next) {
+	    this.element = element;
+	    this.prev = prev;
+	    this.next = next;
+	} // Node<E>(E element, Node<E> prev, Node<E> next)
+
+	public void setElement(E element) {
+	    this.element = element;
+	} // setElement
+
+	public E getElement() {
+	    return this.element; 
+	} // getElement
+
+	public void setPrev(Node<E> prev) {
+	    this.prev = prev;
+	} // setPrev
+
+	public Node<E> getPrev() {
+	    return this.prev;
+	} // getPrev
+	
+	public void setNext(Node<E> next) {
+	    this.next = next;
+	} // setNext
+
+	public Node<E> getNext() {
+	    return this.next;
+	} // getNext
+	
+    } // Node<E>
+
     private Node<E> head;
     private Node<E> tail;
     private int counter;
