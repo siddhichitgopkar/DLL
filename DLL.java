@@ -145,6 +145,17 @@ public class DLL<E> {
         return list;
     } //toString
 
+
+    //10
+    public DLL<E> clone() {
+	
+    } // close
+
+    //11
+    public DLL<E> deepClone() {
+
+    } // deepClone
+
     //12
     public void insert (int index, E element) {
 	Node<E> current = head;
@@ -176,4 +187,34 @@ public class DLL<E> {
         return current.element;
     } //get
 
+    //14
+    public E remove(int index) {
+
+    } // remove
+
+    //15
+    public void remove(Node<E> x) {
+
+    } // remove
+
+    //16
+    public Node<E> find(E element) {
+
+    } // find
+
+    //17
+    public void swap(Node<E> x, Node<E> y) {
+
+    } // swap
+ 
+    //18
+    public void clear() {
+
+    } // clear
+
+    //19
+    public E set(int index, E element) {
+
+    } // set
+    
 } //DLL
