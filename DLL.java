@@ -63,24 +63,13 @@ public class DLL<E> {
 
     //1
     public int size() {
-        int size = 0;
-        if (head == null) {
-            return size;
-        } //if
-        while (head != null) {
-            size++;
-            head = head.next;
-        } //while
-        return size;
+        return counter;
     } //size
 
     //2
     public boolean isEmpty() {
-        boolean empty = false;
-        if (head == null || head.next == tail || tail.prev == head) {
-            rempty = true;
-        } //if
-        return empty;
+        if (this.size() == 0) return true;
+	else return false;
     } //isEmpty
 
     //3
@@ -95,67 +84,60 @@ public class DLL<E> {
 
     //5
     public void addFirst(E element) {
-        Node<E> temp = new Node<E>();
-        temp.element = element;
-        temp.next = null;
-        temp.prev = null;
-        if (head == null) { //should i call isEmpty() in the if statement instead?
+        Node<E> temp = new Node<E>(element);
+        if (this.isEmpty()) {
             head = temp;
+	    tail = temp;
         } else {
             head.prev = temp;
             temp.next = head;
             head = temp;
         } //else
-    } //adFirst
+	counter++;
+    } //addFirst
 
     //6
     public void addLast(E element) {
-        Node <E> tmep = new Node<E>();
-        temp.element = element;
-        temp.next = null;
-        temp.prev = null;
-        if (head == null) { //should i call isEmpty() in the if statement instead here too?
+        Node <E> temp = new Node<E>(element);
+        if (this.isEmpty()) {
             head = temp;
+	    tail = temp;
         } else {
             tail.next = temp;
             temp.prev = tail;
             tail = temp;
         } //else
+	counter++;
     } //addLast
 
     //7
     public E removeFirst() {
         E first = head.element;
-        Node<E> temp = new Node<E>();
-        temp = head;
-        head = head.next;
+        Node<E> temp = new Node<E>(head.next, null, (head.next).next);
+	head = temp;
         temp = null;
-        head.prev = null;
         return first;
+	counter--;
     } //removeFirst
 
     //8
     public E removeLast() {
         E last = tail.element;
-        Node<E> temp = new Node<E>();
-        temp = tail;
-        tail = tail.prev;
-        temp = null;
-        tail.next = null;
+        Node<E> temp = new Node<E>(tail.prev, (tail.prev).prev, null);
+        tail = temp;
+	temp = null;
+	counter--;
     } //removeLast
 
     //9
     public String toString() {
         String list = "null";
-        if (head == null) { //should i call isEmpty() here?
-            return list;
-        } //if
-        E temp = head.element;
+        if (this.isEmpty()) return list;
+        Node<E> current = head;
         list += "<--";
-        while (temp != tail.element) {
-            list += String.valueOf(temp);
-            head = head.next;
-            temp = head.element;
+        for (int i = 0; i < size() - 1; i++) {
+            list += String.valueOf(current);
+            current = current.next;
             list += "<-->";
         } //while
         list += String.valueOf(tail.element);
@@ -163,22 +145,31 @@ public class DLL<E> {
         return list;
     } //toString
 
+
+    //10
+    public DLL<E> clone() {
+	
+    } // close
+
+    //11
+    public DLL<E> deepClone() {
+
+    } // deepClone
+
     //12
     public void insert (int index, E element) {
-        int size = size();
+	Node<E> current = head;
         if (index == 0) {
             addFirst(element);
-        } else if (index == (size - 1)) {
+        } else if (index == (size() - 1)) {
             addLast(element);
         } else {
-            Node<E> temp = new Node<E>();
-            Node<E> after = new Node<E>();
-            Node<E> prev = new Node<E>();
             for (int i = 0; i < index; i++) {
-                head = head.next;
+                current = current.next;
             } //for
-            prev = head;
-            after = head.next;
+	    Node<E> temp = new Node<E>(element);
+            Node<E> prev = current;
+            Node<E> after = current.next;
             prev.next = temp;
             temp.prev = prev;
             temp.next = after;
@@ -188,15 +179,42 @@ public class DLL<E> {
 
     //13
     public E get(int index) {
-        int size = size();
-        if (index > size - 1) {
-            return null;
-        } //if
+	Node<E> current = head;
+        if (index > size() - 1 || index < size()) return null;
         for (int i = 0; i < index; i++) {
-            head = head.next;
-        } //for
-        return head.element;
-
+	    current = current.next;
+	} //for
+        return current.element;
     } //get
 
+    //14
+    public E remove(int index) {
+
+    } // remove
+
+    //15
+    public void remove(Node<E> x) {
+
+    } // remove
+
+    //16
+    public Node<E> find(E element) {
+
+    } // find
+
+    //17
+    public void swap(Node<E> x, Node<E> y) {
+
+    } // swap
+ 
+    //18
+    public void clear() {
+
+    } // clear
+
+    //19
+    public E set(int index, E element) {
+
+    } // set
+    
 } //DLL
