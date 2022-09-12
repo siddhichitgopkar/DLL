@@ -1,5 +1,6 @@
 public class DLL<E> {
 
+    //node class
     public class Node<E> {
 
         private E element;
@@ -47,8 +48,8 @@ public class DLL<E> {
         public Node<E> getNext() {
             return this.next;
         } // getNext
-
     } // Node<E>
+
 
     private Node<E> head;
     private Node<E> tail;
@@ -148,14 +149,32 @@ public class DLL<E> {
 
 
     //10
+    // i have no idea if this is right ??????
     public DLL<E> clone() {
         DLL<E> clone = new DLL<E>();
+        clone = this.clone();
         return clone;
-    } // close
+    } // clone
 
     //11
+    //i have no idea if this is right either ??
     public DLL<E> deepClone() {
         DLL<E> clone = new DLL<E>();
+        int size = size();
+        Node<E> current = head;
+        Node temp = new Node(current.element);
+        Node<E> previous = temp;
+        clone.add(temp);
+        Node <E> newHead = temp;
+        temp.prev = null;
+        current = current.next;
+        for (int i = 1; i < size(); i++) {
+            Node newNode = new Node(current.element);
+            prev.next = newNode;
+            newNode.prev = previous;
+            clone.add(newNode);
+            current = current.next;
+        } //for
         return clone;
     } // deepClone
 
@@ -182,7 +201,6 @@ public class DLL<E> {
 
     //13
     public E get(int index) {
-
         Node<E> current = head;
         if (index > size() - 1 || index < size()) return null;
         for (int i = 0; i < index; i++) {
