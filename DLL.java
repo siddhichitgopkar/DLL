@@ -69,6 +69,7 @@ public class DLL<E> {
     //2
     public boolean isEmpty() {
         if (this.size() == 0) return true;
+
         else return false;
     } //isEmpty
 
@@ -181,6 +182,7 @@ public class DLL<E> {
 
     //13
     public E get(int index) {
+
         Node<E> current = head;
         if (index > size() - 1 || index < size()) return null;
         for (int i = 0; i < index; i++) {
@@ -252,5 +254,4 @@ public class DLL<E> {
         current.element = element;
         return out;
     } // set
-
 } //DLL
