@@ -7,19 +7,19 @@ public class DLL<E> {
         private Node<E> prev;
         private Node<E> next;
 
-        public Node<E>() {
+        public <E>Node() {
             this.element = null;
             this.prev = null;
             this.next = null;
         } // Node<E>()
 
-        public Node<E>(E element) {
+        public <E>Node(E element) {
             this.element = element;
             this.prev = null;
             this.next = null;
         } // Node<E>(E element)
 
-        public Node<E>(E element, Node<E> prev, Node<E> next) {
+        public <E>Node(E element, Node<E> prev, Node<E> next) {
             this.element = element;
             this.prev = prev;
             this.next = next;
@@ -56,7 +56,7 @@ public class DLL<E> {
     private int counter;
 
     //constructor
-    public DLL<E>() {
+    public <E>DLL() {
         head = null;
         tail = null;
         counter = 0;
@@ -149,32 +149,25 @@ public class DLL<E> {
 
 
     //10
-    // i have no idea if this is right ??????
     public DLL<E> clone() {
-        DLL<E> clone = new DLL<E>();
-        clone = this.clone();
-        return clone;
+        DLL<E> clone = this;
+	return clone;
     } // clone
 
     //11
-    //i have no idea if this is right either ??
     public DLL<E> deepClone() {
-        DLL<E> clone = new DLL<E>();
-        int size = size();
-        Node<E> current = head;
-        Node temp = new Node(current.element);
-        Node<E> previous = temp;
-        clone.add(temp);
-        Node <E> newHead = temp;
-        temp.prev = null;
-        current = current.next;
+	DLL<E> deepClone = new DLL<E>();
+	deepClone.addFirst((this.head).element);
+        Node<E> current = (this.head).next;
+        Node<E> previous = deepClone.head;
         for (int i = 1; i < size(); i++) {
-            Node newNode = new Node(current.element);
-            prev.next = newNode;
+            Node<E> newNode = new Node((this.current).element);
+            previous.next = newNode;
             newNode.prev = previous;
-            clone.add(newNode);
             current = current.next;
+	    previous = previous.next;
         } //for
+        previous.next = deepClone.addLast((this.tail).element);
         return clone;
     } // deepClone
 
@@ -247,7 +240,11 @@ public class DLL<E> {
 
     //17
     public void swap(Node<E> x, Node<E> y) {
-
+	Node<E> temp = x;
+	x.next = y.next;
+	x.prev = y.prev;
+	y.next = temp.next;
+	y.prev = temp.prev;
     } // swap
 
     //18
