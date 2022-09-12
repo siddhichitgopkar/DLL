@@ -7,19 +7,19 @@ public class DLL<E> {
         private Node<E> prev;
         private Node<E> next;
 
-        public <E>Node() {
+        public Node() {
             this.element = null;
             this.prev = null;
             this.next = null;
         } // Node<E>()
 
-        public <E>Node(E element) {
+        public Node(E element) {
             this.element = element;
             this.prev = null;
             this.next = null;
         } // Node<E>(E element)
 
-        public <E>Node(E element, Node<E> prev, Node<E> next) {
+        public Node(E element, Node<E> prev, Node<E> next) {
             this.element = element;
             this.prev = prev;
             this.next = next;
@@ -56,11 +56,11 @@ public class DLL<E> {
     private int counter;
 
     //constructor
-    public <E>DLL() {
+    public DLL() {
         head = null;
         tail = null;
         counter = 0;
-    } //DLL<E>
+    } //DLL
 
     //1
     public int size() {
@@ -76,12 +76,12 @@ public class DLL<E> {
 
     //3
     public E first() {
-        return head;
+        return head.element;
     } //first
 
     //4
     public E last() {
-        return tail;
+        return tail.element;
     } //first
 
     //5
@@ -115,20 +115,21 @@ public class DLL<E> {
     //7
     public E removeFirst() {
         E first = head.element;
-        Node<E> temp = new Node<E>(head.next, null, (head.next).next);
+        Node<E> temp = new Node<E>(head.next.element, null, head.next.next);
         head = temp;
         temp = null;
+	counter--;
         return first;
-        counter--;
     } //removeFirst
 
     //8
     public E removeLast() {
         E last = tail.element;
-        Node<E> temp = new Node<E>(tail.prev, (tail.prev).prev, null);
+        Node<E> temp = new Node<E>(tail.prev.element, tail.prev.prev, null);
         tail = temp;
         temp = null;
         counter--;
+	return last;
     } //removeLast
 
     //9
@@ -149,26 +150,26 @@ public class DLL<E> {
 
 
     //10
-    public DLL<E> clone() {
+    public DLL clone() {
         DLL<E> clone = this;
 	return clone;
     } // clone
 
     //11
-    public DLL<E> deepClone() {
+    public DLL deepClone() {
 	DLL<E> deepClone = new DLL<E>();
-	deepClone.addFirst((this.head).element);
-        Node<E> current = (this.head).next;
+	deepClone.addFirst(this.head.element);
+        Node<E> current = this.head.next;
         Node<E> previous = deepClone.head;
         for (int i = 1; i < size(); i++) {
-            Node<E> newNode = new Node((this.current).element);
+            Node<E> newNode = new Node(current.element);
             previous.next = newNode;
             newNode.prev = previous;
             current = current.next;
 	    previous = previous.next;
         } //for
-        previous.next = deepClone.addLast((this.tail).element);
-        return clone;
+        deepClone.addLast(current.element);
+        return deepClone;
     } // deepClone
 
     //12
@@ -185,7 +186,7 @@ public class DLL<E> {
             Node<E> temp = new Node<E>(element);
             Node<E> previous = current;
             Node<E> after = current.next;
-            prev.next = temp;
+            previous.next = temp;
             temp.prev = previous;
             temp.next = after;
             after.prev = temp;
