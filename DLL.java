@@ -247,7 +247,14 @@ public class DLL<E> {
 
     //17
     public void swap(Node<E> x, Node<E> y) {
-
+        Node<E> xprev = x.prev;
+        Node<E> xafter = x.next;
+        Node<E> yprev = y.prev;
+        Node<E> yafter = y.next;
+        x.prev = yprev;
+        x.next = yafter;
+        y.prev = x.prev;
+        y.next = x.after;
     } // swap
 
     //18
