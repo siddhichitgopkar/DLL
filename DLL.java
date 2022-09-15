@@ -279,11 +279,11 @@ public class DLL<E> {
 
     //17
     public void swap(Node<E> x, Node<E> y) {
-	Node<E> temp = x;
-	x.next = y.next;
-	x.prev = y.prev;
-	y.next = temp.next;
-	y.prev = temp.prev;
+	    Node<E> temp = x;
+	    x.next = y.next;
+	    x.prev = y.prev;
+	    y.next = temp.next;
+	    y.prev = temp.prev;
     } // swap
 
     //18
