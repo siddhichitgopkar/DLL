@@ -169,31 +169,24 @@ public class DLL<E> {
 
     //11
     public DLL deepClone() {
-        DLL<E> deepClone = new DLL<E>();
-        Node<E> nodeCopy;
-        Node<E> current = this.head;
-        Node<E> previous;
-        if (!this.isEmpty()) {
-            try {
-                E elementCopy;
-                Method m = current.element.getClass().getMethod("clone");
-                for (int i = 1; i < size(); i++) {
-                    previous = current;
-                    current = current.next;
-                    m = current.element.getClass().getMethod("clone");
-                    elementCopy = (E) m.invoke(current.element);
-                    nodeCopy = new Node<E>(elementCopy);
-                    previous.next = nodeCopy;
-                    nodeCopy.prev = previous;
-                    previous = previous.next;
-                } //for
-                elementCopy = (E) m.invoke(current.element);
-                deepClone.addLast(elementCopy);
-            } catch(Exception e) {
-                e.printStackTrace();
-            } // try-catch
-        } // if
-        return deepClone;
+	DLL<E> deepClone = new DLL<E>();
+	Node<E> current = this.head;
+	if (!this.isEmpty()) {
+	    try {
+	        E elementCopy;
+		Method m = current.element.getClass().getMethod("clone");
+		for (int i = 0; i < size(); i++) {
+		    System.out.println(current.element);
+		    m = current.element.getClass().getMethod("clone");
+		    elementCopy = (E) m.invoke(current.element);
+		    deepClone.addLast(elementCopy);
+		    current = current.next;
+		} //for
+	    } catch(Exception e) {
+		e.printStackTrace();
+	    } // try-catch
+	} // if
+      return deepClone;
     } // deepClone
 
     //12
@@ -201,27 +194,31 @@ public class DLL<E> {
         Node<E> current = this.head;
         if (index == 0) {
             addFirst(element);
-        } else if (index == size()) {
+	    counter++;
+	    return;
+        } else if (index == size() - 1) {
             addLast(element);
-        } else if (index > 0 && index < size()) {
-            for (int i = 0; i < index; i++) {
-                current = current.next;
+	    counter++;
+	    return;
+        } else {
+            for (int i = 1; i < index; i++) {
+                if (current.next != null) current = current.next;
             } //for
             Node<E> temp = new Node<E>(element);
             Node<E> after = current.next;
-            current.next = temp;
-            temp.prev = current;
-            temp.next = after;
-            after.prev = temp;
+	    current.next = temp;
+	    temp.prev = current;
+	    temp.next = after;
+	    after.prev = temp;
         } //else
+	counter++;
     } //insert
 
     //13
     public E get(int index) {
         Node<E> current = head;
-        if (index > size() - 1 || index < size()) return null;
         for (int i = 0; i < index; i++) {
-            current = current.next;
+            if (current.next != null) current = current.next;
         } //for
         return current.element;
     } //get
@@ -229,11 +226,29 @@ public class DLL<E> {
     //14
     public E remove(int index) {
         Node<E> current = head;
-        for (int i = 0; i < index; i++) {
-            current = current.next;
-        } //for
-        E elem = current.element;
-        current.element = null;
+	E elem = current.element;
+	if (index == 0) {
+	    removeFirst();
+	    counter--;
+	    return first();
+	} else if (index == size() - 1) {
+	    removeLast();
+	    counter--;
+	    return last();
+        } else {
+	    for (int i = 0; i < index; i++) {
+		if (current.next != null) current = current.next;
+	    } //for
+	    elem = current.element;
+	    Node<E> previous = current.prev;
+	    Node<E> after = current.next;
+	    previous.next = after;
+	    after.prev = previous;
+	    current.prev = null;
+	    current.next = null;
+	    current.element = null;
+	}
+	counter--;
         return elem;
     } // remove
 
