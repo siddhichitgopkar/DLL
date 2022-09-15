@@ -169,30 +169,30 @@ public class DLL<E> {
 
     //11
     public DLL deepClone() {
-	DLL<E> deepClone = new DLL<E>();
-	Node<E> nodeCopy;
-	Node<E> current = this.head;
-	Node<E> previous;
-	if (!this.isEmpty()) {
-	    try {
-	        E elementCopy;
-		Method m = current.element.getClass().getMethod("clone");
-		for (int i = 1; i < size(); i++) {
-		    current = current.next;
-		    m = current.element.getClass().getMethod("clone");
-		    elementCopy = (E) m.invoke(current.element);
-		    nodeCopy = new Node<E>(elementCopy);
-		    previous = current;
-		    previous.next = nodeCopy;
-		    nodeCopy.prev = previous;
-		    previous = previous.next;
-		} //for
-		elementCopy = (E) m.invoke(current.element);
-		deepClone.addLast(elementCopy);
-	    } catch(Exception e) {
-		e.printStackTrace();
-	    } // try-catch
-	} // if
+        DLL<E> deepClone = new DLL<E>();
+        Node<E> nodeCopy;
+        Node<E> current = this.head;
+        Node<E> previous;
+        if (!this.isEmpty()) {
+            try {
+                E elementCopy;
+                Method m = current.element.getClass().getMethod("clone");
+                for (int i = 1; i < size(); i++) {
+                    previous = current;
+                    current = current.next;
+                    m = current.element.getClass().getMethod("clone");
+                    elementCopy = (E) m.invoke(current.element);
+                    nodeCopy = new Node<E>(elementCopy);
+                    previous.next = nodeCopy;
+                    nodeCopy.prev = previous;
+                    previous = previous.next;
+                } //for
+                elementCopy = (E) m.invoke(current.element);
+                deepClone.addLast(elementCopy);
+            } catch(Exception e) {
+                e.printStackTrace();
+            } // try-catch
+        } // if
         return deepClone;
     } // deepClone
 
