@@ -1,3 +1,5 @@
+import java.lang.reflect.*;
+
 public class DLL<E> {
 
     //node class
@@ -70,7 +72,6 @@ public class DLL<E> {
     //2
     public boolean isEmpty() {
         if (this.size() == 0) return true;
-
         else return false;
     } //isEmpty
 
@@ -137,57 +138,79 @@ public class DLL<E> {
         String list = "null";
         if (this.isEmpty()) return list;
         Node<E> current = head;
-        list += "<--";
+        list += " <-- ";
         for (int i = 0; i < size() - 1; i++) {
-            list += String.valueOf(current);
+            list += current.element.toString();
             current = current.next;
-            list += "<-->";
+            list += " <--> ";
         } //while
-        list += String.valueOf(tail.element);
-        list += "--> null";
+        list += tail.element.toString();
+        list += " --> null";
         return list;
     } //toString
 
 
     //10
     public DLL clone() {
-        DLL<E> clone = this;
-	return clone;
-    } // clone
-
-    //11
-    public DLL deepClone() {
-	DLL<E> deepClone = new DLL<E>();
-	deepClone.addFirst(this.head.element);
+	DLL<E> clone = new DLL<E>();
+	clone.addFirst(this.head.element);
         Node<E> current = this.head.next;
-        Node<E> previous = deepClone.head;
-        for (int i = 1; i < size(); i++) {
+        Node<E> previous = clone.head;
+        for (int i = 1; i < size() - 1; i++) {
             Node<E> newNode = new Node(current.element);
             previous.next = newNode;
             newNode.prev = previous;
             current = current.next;
 	    previous = previous.next;
         } //for
-        deepClone.addLast(current.element);
+        clone.addLast(current.element);
+        return clone;
+    } // clone
+
+    //11
+    public DLL deepClone() {
+	DLL<E> deepClone = new DLL<E>();
+	Node<E> nodeCopy;
+	Node<E> current = this.head;
+	Node<E> previous;
+	if (!this.isEmpty()) {
+	    try {
+	        E elementCopy;
+		Method m = current.element.getClass().getMethod("clone");
+		for (int i = 1; i < size(); i++) {
+		    current = current.next;
+		    m = current.element.getClass().getMethod("clone");
+		    elementCopy = (E) m.invoke(current.element);
+		    nodeCopy = new Node<E>(elementCopy);
+		    previous = current;
+		    previous.next = nodeCopy;
+		    nodeCopy.prev = previous;
+		    previous = previous.next;
+		} //for
+		elementCopy = (E) m.invoke(current.element);
+		deepClone.addLast(elementCopy);
+	    } catch(Exception e) {
+		e.printStackTrace();
+	    } // try-catch
+	} // if
         return deepClone;
     } // deepClone
 
     //12
     public void insert (int index, E element) {
-        Node<E> current = head;
+        Node<E> current = this.head;
         if (index == 0) {
             addFirst(element);
-        } else if (index == (size() - 1)) {
+        } else if (index == size()) {
             addLast(element);
-        } else {
+        } else if (index > 0 && index < size()) {
             for (int i = 0; i < index; i++) {
                 current = current.next;
             } //for
             Node<E> temp = new Node<E>(element);
-            Node<E> previous = current;
             Node<E> after = current.next;
-            previous.next = temp;
-            temp.prev = previous;
+            current.next = temp;
+            temp.prev = current;
             temp.next = after;
             after.prev = temp;
         } //else
