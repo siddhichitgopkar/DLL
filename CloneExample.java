@@ -174,10 +174,9 @@ public class CloneExample
 	// System.out.println(listDeepCopy2);
 	// System.out.println(listDeepCopy2.size());
 	// System.out.println(listDeepCopy2.find());
-	listDeepCopy2.set(1, new Car("Civic"));
+	System.out.println("Remove method: " + listDeepCopy2.remove(1));
 	System.out.println(listDeepCopy2);
-	listDeepCopy2.remove(1);
-	System.out.println(listDeepCopy2);
+	System.out.println(listDeepCopy2.size());
 	listDeepCopy2.clear();
 	System.out.println(listDeepCopy2.size());
     }
