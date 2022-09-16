@@ -271,23 +271,14 @@ public class DLL<E> {
 
     //15
     public void remove(Node<E> x) {
-        Node<E> previous = x.getPrev();
-        Node<E> after = x.getNext();
-        previous.setNext(after);
-        after.setPrev(previous);
-        x.setPrev(null);
-        x.setNext(null);
-        counter--;
-        /*
-          Node<E> current = head;
-          int index = 0;
-          for (int i = 0; i < size(); i++) {
-          if (current.element == x.element) {
-          index = i;
-          } //if
-          } //for
-          remove(index);
-         */
+        Node<E> current = head;
+        int index = 0;
+        for (int i = 0; i < size(); i++) {
+            if (current.element == x.element) {
+                index = i;
+            } //if
+        } //for
+        remove(index);
     } // remove
 
     //16
