@@ -119,7 +119,7 @@ public class DLL<E> {
         Node<E> temp = new Node<E>(head.next.element, null, head.next.next);
         head = temp;
         temp = null;
-	counter--;
+        counter--;
         return first;
     } //removeFirst
 
@@ -130,7 +130,7 @@ public class DLL<E> {
         tail = temp;
         temp = null;
         counter--;
-	return last;
+        return last;
     } //removeLast
 
     //9
@@ -139,10 +139,15 @@ public class DLL<E> {
         if (this.isEmpty()) return list;
         Node<E> current = head;
         list += " <-- ";
-        for (int i = 0; i < size() - 1; i++) {
-            list += current.element.toString();
-            current = current.next;
-            list += " <--> ";
+        int size = size();
+        for (int i = 0; i < size - 1; i++) {
+            if (!(current.element == null)) {
+                list += current.element.toString();
+                current = current.next;
+                list += " <--> ";
+            } else {
+                current = current.next;
+            } //else
         } //while
         list += tail.element.toString();
         list += " --> null";
@@ -152,8 +157,8 @@ public class DLL<E> {
 
     //10
     public DLL clone() {
-	DLL<E> clone = new DLL<E>();
-	clone.addFirst(this.head.element);
+        DLL<E> clone = new DLL<E>();
+        clone.addFirst(this.head.element);
         Node<E> current = this.head.next;
         Node<E> previous = clone.head;
         for (int i = 1; i < size() - 1; i++) {
@@ -161,7 +166,7 @@ public class DLL<E> {
             previous.next = newNode;
             newNode.prev = previous;
             current = current.next;
-	    previous = previous.next;
+            previous = previous.next;
         } //for
         clone.addLast(current.element);
         return clone;
@@ -169,24 +174,24 @@ public class DLL<E> {
 
     //11
     public DLL deepClone() {
-	DLL<E> deepClone = new DLL<E>();
-	Node<E> current = this.head;
-	if (!this.isEmpty()) {
-	    try {
-	        E elementCopy;
-		Method m = current.element.getClass().getMethod("clone");
-		for (int i = 0; i < size(); i++) {
-		    System.out.println(current.element);
-		    m = current.element.getClass().getMethod("clone");
-		    elementCopy = (E) m.invoke(current.element);
-		    deepClone.addLast(elementCopy);
-		    current = current.next;
-		} //for
-	    } catch(Exception e) {
-		e.printStackTrace();
-	    } // try-catch
-	} // if
-      return deepClone;
+        DLL<E> deepClone = new DLL<E>();
+        Node<E> current = this.head;
+        if (!this.isEmpty()) {
+            try {
+                E elementCopy;
+                Method m = current.element.getClass().getMethod("clone");
+                for (int i = 0; i < size(); i++) {
+                    System.out.println(current.element);
+                    m = current.element.getClass().getMethod("clone");
+                    elementCopy = (E) m.invoke(current.element);
+                    deepClone.addLast(elementCopy);
+                    current = current.next;
+                } //for
+            } catch(Exception e) {
+                e.printStackTrace();
+            } // try-catch
+        } // if
+        return deepClone;
     } // deepClone
 
     //12
@@ -194,24 +199,24 @@ public class DLL<E> {
         Node<E> current = this.head;
         if (index == 0) {
             addFirst(element);
-	    counter++;
-	    return;
+            counter++;
+            return;
         } else if (index == size() - 1) {
             addLast(element);
-	    counter++;
-	    return;
+            counter++;
+            return;
         } else {
             for (int i = 1; i < index; i++) {
                 if (current.next != null) current = current.next;
             } //for
             Node<E> temp = new Node<E>(element);
             Node<E> after = current.next;
-	    current.next = temp;
-	    temp.prev = current;
-	    temp.next = after;
-	    after.prev = temp;
+            current.next = temp;
+            temp.prev = current;
+            temp.next = after;
+            after.prev = temp;
         } //else
-	counter++;
+        counter++;
     } //insert
 
     //13
@@ -225,31 +230,40 @@ public class DLL<E> {
 
     //14
     public E remove(int index) {
-        Node<E> current = head;
-	E elem = current.element;
-	if (index == 0) {
-	    removeFirst();
-	    counter--;
-	    return first();
-	} else if (index == size() - 1) {
-	    removeLast();
-	    counter--;
-	    return last();
+        if (index == 0) {
+            removeFirst();
+            return first();
+        } else if (index == size() - 1) {
+            removeLast();
+            return last();
         } else {
-	    for (int i = 0; i < index; i++) {
-		if (current.next != null) current = current.next;
-	    } //for
-	    elem = current.element;
-	    Node<E> previous = current.prev;
-	    Node<E> after = current.next;
-	    previous.next = after;
-	    after.prev = previous;
-	    current.prev = null;
-	    current.next = null;
-	    current.element = null;
-	}
-	counter--;
-        return elem;
+            DLL<E> deepClone = new DLL<E>();
+            Node<E> current = this.head;
+            Node<E> newhead = null;
+            E out = null;
+            if (!this.isEmpty()) {
+                try {
+                    E elementCopy;
+                    Method m = current.element.getClass().getMethod("clone");
+                    for (int i = 0; i < size(); i++) {
+                        if (i == index) {
+                            out = current.element;
+                            current = current.next;
+                        } else {
+                            m = current.element.getClass().getMethod("clone");
+                            elementCopy = (E) m.invoke(current.element);
+                            deepClone.addLast(elementCopy);
+                            current = current.next;
+                        } //else
+                    } //for
+                } catch(Exception e) {
+                    e.printStackTrace();
+                } // try-catch
+            } // if
+            this.head = deepClone.head;
+            counter--;
+            return out;
+        } //else
     } // remove
 
     //15
@@ -261,6 +275,16 @@ public class DLL<E> {
         x.prev = null;
         x.next = null;
         counter--;
+        /*
+          Node<E> current = head;
+          int index = 0;
+          for (int i = 0; i < size(); i++) {
+          if (current.element == x.element) {
+          index = i;
+          } //if
+          } //for
+          remove(index);
+         */
     } // remove
 
     //16
