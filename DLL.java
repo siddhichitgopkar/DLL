@@ -71,64 +71,73 @@ public class DLL<E> {
 
     //2
     public boolean isEmpty() {
-        if (this.size() == 0) return true;
-        else return false;
+	boolean isEmpty = false;
+        if (size() == 0) {
+	    isEmpty = true;
+	} else {
+	    isEmpty = false;
+	} // if
+	return isEmpty;
     } //isEmpty
 
     //3
     public E first() {
-        return head.element;
+        return head.getElement();
     } //first
 
     //4
     public E last() {
-        return tail.element;
+        return tail.getElement();
     } //first
 
     //5
     public void addFirst(E element) {
-        Node<E> temp = new Node<E>(element);
-        if (this.isEmpty()) {
-            head = temp;
-            tail = temp;
+        Node<E> newHead = new Node<E>(element);
+        if (isEmpty() == true) {
+            head = newHead;
+            tail = newHead;
         } else {
-            head.prev = temp;
-            temp.next = head;
-            head = temp;
+            head.setPrev(newHead);
+            newHead.setNext(head);
+            head = newHead;
         } //else
         counter++;
     } //addFirst
 
     //6
     public void addLast(E element) {
-        Node <E> temp = new Node<E>(element);
-        if (this.isEmpty()) {
-            head = temp;
-            tail = temp;
+        Node <E> newTail = new Node<E>(element);
+        if (isEmpty() == true) {
+            head = newTail;
+            tail = newTail;
         } else {
-            tail.next = temp;
-            temp.prev = tail;
-            tail = temp;
+            tail.setNext(newTail);
+	    newTail.setPrev(tail);
+	    tail = newTail;
         } //else
         counter++;
     } //addLast
 
     //7
     public E removeFirst() {
-        E first = head.element;
-        Node<E> temp = new Node<E>(head.next.element, null, head.next.next);
-        head = temp;
-        temp = null;
-        counter--;
+        E first = first();
+        Node<E> oldFirst = head;
+        head = head.getNext();
+        head.setPrev(null);
+	oldFirst.setNext(null);
+	oldFirst.setElement(null);
+	counter--;
         return first;
     } //removeFirst
 
     //8
     public E removeLast() {
-        E last = tail.element;
-        Node<E> temp = new Node<E>(tail.prev.element, tail.prev.prev, null);
-        tail = temp;
-        temp = null;
+        E last = last();
+	Node<E> oldTail = tail;
+	tail = tail.getPrev();
+        tail.setNext(null);
+	oldTail.setPrev(null);
+	oldTail.setElement(null);
         counter--;
         return last;
     } //removeLast
@@ -139,17 +148,12 @@ public class DLL<E> {
         if (this.isEmpty()) return list;
         Node<E> current = head;
         list += " <-- ";
-        int size = size();
-        for (int i = 0; i < size - 1; i++) {
-            if (!(current.element == null)) {
-                list += current.element.toString();
-                current = current.next;
-                list += " <--> ";
-            } else {
-                current = current.next;
-            } //else
+        for (int i = 0; i < size() - 1; i++) {
+            list += current.getElement().toString();
+            current = current.getNext();
+            list += " <--> ";
         } //while
-        list += tail.element.toString();
+        list += tail.getElement().toString();
         list += " --> null";
         return list;
     } //toString
@@ -157,40 +161,39 @@ public class DLL<E> {
 
     //10
     public DLL clone() {
-        DLL<E> clone = new DLL<E>();
-        clone.addFirst(this.head.element);
-        Node<E> current = this.head.next;
+	DLL<E> clone = new DLL<E>();
+	clone.addFirst(this.head.getElement());
+        Node<E> current = this.head.getNext();
         Node<E> previous = clone.head;
         for (int i = 1; i < size() - 1; i++) {
-            Node<E> newNode = new Node(current.element);
-            previous.next = newNode;
-            newNode.prev = previous;
-            current = current.next;
-            previous = previous.next;
+            Node<E> newNode = new Node(current.getElement());
+            previous.setNext(newNode);
+            newNode.setPrev(previous);
+            current = current.getNext();
+	    previous = previous.getNext();
         } //for
-        clone.addLast(current.element);
+        clone.addLast(current.getElement());
         return clone;
     } // clone
 
     //11
     public DLL deepClone() {
-        DLL<E> deepClone = new DLL<E>();
-        Node<E> current = this.head;
-        if (!this.isEmpty()) {
-            try {
-                E elementCopy;
-                Method m = current.element.getClass().getMethod("clone");
-                for (int i = 0; i < size(); i++) {
-                    System.out.println(current.element);
-                    m = current.element.getClass().getMethod("clone");
-                    elementCopy = (E) m.invoke(current.element);
-                    deepClone.addLast(elementCopy);
-                    current = current.next;
-                } //for
-            } catch(Exception e) {
-                e.printStackTrace();
-            } // try-catch
-        } // if
+	DLL<E> deepClone = new DLL<E>();
+	Node<E> current = this.head;
+	if (!this.isEmpty()) {
+	    try {
+	        E elementCopy;
+		Method m = current.getElement().getClass().getMethod("clone");
+		for (int i = 0; i < size(); i++) {
+		    m = current.getElement().getClass().getMethod("clone");
+		    elementCopy = (E) m.invoke(current.getElement());
+		    deepClone.addLast(elementCopy);
+		    current = current.getNext();
+		} //for
+	    } catch(Exception e) {
+		e.printStackTrace();
+	    } // try-catch
+	} // if
         return deepClone;
     } // deepClone
 
@@ -207,14 +210,14 @@ public class DLL<E> {
             return;
         } else {
             for (int i = 1; i < index; i++) {
-                if (current.next != null) current = current.next;
+                if (current.getNext() != null) current = current.getNext();
             } //for
             Node<E> temp = new Node<E>(element);
-            Node<E> after = current.next;
-            current.next = temp;
-            temp.prev = current;
-            temp.next = after;
-            after.prev = temp;
+            Node<E> after = current.getNext();
+	    current.setNext(temp);
+	    temp.setPrev(current);
+	    temp.setNext(after);;
+	    after.setPrev(temp);
         } //else
         counter++;
     } //insert
@@ -223,9 +226,9 @@ public class DLL<E> {
     public E get(int index) {
         Node<E> current = head;
         for (int i = 0; i < index; i++) {
-            if (current.next != null) current = current.next;
+            if (current.getNext() != null) current = current.getNext();
         } //for
-        return current.element;
+        return current.getElement();
     } //get
 
     //14
@@ -268,12 +271,12 @@ public class DLL<E> {
 
     //15
     public void remove(Node<E> x) {
-        Node<E> previous = x.prev;
-        Node<E> after = x.next;
-        previous.next = after;
-        after.prev = previous;
-        x.prev = null;
-        x.next = null;
+        Node<E> previous = x.getPrev();
+        Node<E> after = x.getNext();
+        previous.setNext(after);
+        after.setPrev(previous);
+        x.setPrev(null);
+        x.setNext(null);
         counter--;
         /*
           Node<E> current = head;
@@ -293,7 +296,7 @@ public class DLL<E> {
         Node<E> out = new Node<E>();
         int size = size();
         for (int i = 0; i < size; i++) {
-            if (current.element == element) {
+            if (current.getElement() == element) {
                 out = current;
                 return out;
             } //if
@@ -304,10 +307,10 @@ public class DLL<E> {
     //17
     public void swap(Node<E> x, Node<E> y) {
 	    Node<E> temp = x;
-	    x.next = y.next;
-	    x.prev = y.prev;
-	    y.next = temp.next;
-	    y.prev = temp.prev;
+	    x.setNext(y.getNext());
+	    x.setPrev(y.getPrev());
+	    y.setNext(temp.getNext());
+	    y.setPrev(temp.getPrev());
     } // swap
 
     //18
@@ -315,8 +318,8 @@ public class DLL<E> {
         Node<E> current = head;
         int size = size();
         for (int i = 0; i < size; i++) {
-            current.element = null;
-            current = current.next;
+            current.setElement(null);
+            current = current.getNext();
         } //for
         counter = 0;
     } // clear
@@ -326,10 +329,10 @@ public class DLL<E> {
         E out;
         Node<E> current = head;
         for (int i = 0; i < index; i++) {
-            current = current.next;
+            current = current.getNext();
         } //for
-        out = current.element;
-        current.element = element;
+        out = current.getElement();
+        current.setElement(element);
         return out;
     } // set
 } //DLL
