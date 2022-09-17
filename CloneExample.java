@@ -161,8 +161,6 @@ public class CloneExample
 	System.out.println(listDeepCopy2);
 	System.out.println(listDeepCopy2.size());
 
-	DLL<Car> empty = new DLL<Car>();
-	System.out.println(empty.isEmpty());
 	System.out.println(listDeepCopy2.isEmpty());
 	System.out.println(listDeepCopy2.first());
 	System.out.println(listDeepCopy2.last());
@@ -173,7 +171,9 @@ public class CloneExample
 	// System.out.println(listDeepCopy2);
 	// System.out.println(listDeepCopy2.size());
 	// System.out.println(listDeepCopy2.find());
-	System.out.println("Remove method: " + listDeepCopy2.remove(1));
+	Car civic = new Car("Civic");
+	listDeepCopy2.set(1, civic);
+	System.out.println("Remove method: " + listDeepCopy2.remove(2));
 	System.out.println(listDeepCopy2);
 	System.out.println(listDeepCopy2.size());
 	listDeepCopy2.clear();

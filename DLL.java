@@ -1,75 +1,131 @@
 import java.lang.reflect.*;
 
+//======================================================
+// DLL<E> defines a doubly linked list implementation
+//======================================================
 public class DLL<E> {
 
-    //node class
+    //======================================================
+    // Node<E> defines the node implementation utilized by
+    // the DLL
+    //======================================================
     public class Node<E> {
 
+	//======================================================
+	// element = the value stored in the node
+	//    prev = the node preceding the current node
+	//    next = the node succeeding the current node
+	//======================================================
         private E element;
         private Node<E> prev;
         private Node<E> next;
 
+	//======================================================
+	// Node constructor:
+	// - initializes all instance variables to null
+	//======================================================
         public Node() {
             this.element = null;
             this.prev = null;
             this.next = null;
-        } // Node<E>()
-
+        } // default Node constructor
+	
+	//======================================================
+	// Node constructor:
+	// - initializes this.element to element
+	// - initializes all other instance variables to null
+	//======================================================
         public Node(E element) {
             this.element = element;
             this.prev = null;
             this.next = null;
-        } // Node<E>(E element)
+        } // Node
 
+	// ======================================================
+	// Node constructor:
+	// - initializes this.element to element
+	// - initializes this.prev to prev
+	// - initializes this.next to next
+	//======================================================
         public Node(E element, Node<E> prev, Node<E> next) {
             this.element = element;
             this.prev = prev;
             this.next = next;
-        } // Node<E>(E element, Node<E> prev, Node<E> next)
+        } // Node
 
+	//======================================================
+	// Sets this.element to element
+	//======================================================
         public void setElement(E element) {
             this.element = element;
         } // setElement
 
+	//======================================================
+	// Returns this.element
+	//======================================================
         public E getElement() {
             return this.element;
         } // getElement
 
+	//======================================================
+	// Sets this.prev to prev
+	//======================================================
         public void setPrev(Node<E> prev) {
             this.prev = prev;
         } // setPrev
 
+	//======================================================
+	// Returns this.prev
+	//======================================================
         public Node<E> getPrev() {
             return this.prev;
         } // getPrev
 
+	//======================================================
+	// Sets this.next to next
+	//======================================================
         public void setNext(Node<E> next) {
             this.next = next;
         } // setNext
 
+	//======================================================
+	// Returns this.next
+	//======================================================
         public Node<E> getNext() {
             return this.next;
         } // getNext
+	
     } // Node<E>
 
-
+    //======================================================
+    //    head = the first node in the DLL
+    //    tail = the last node in the DLL
+    // counter = the number of nodes in the DLL
+    //======================================================
     private Node<E> head;
     private Node<E> tail;
     private int counter;
 
-    //constructor
+    //======================================================
+    // DLL constructor:
+    // - initializes all instance variables to null
+    //======================================================
     public DLL() {
         head = null;
         tail = null;
         counter = 0;
-    } //DLL
+    } // default DLL constructor
 
-    //1
+    //======================================================
+    // Returns the current number of elements in the DLL
+    //======================================================
     public int size() {
         return counter;
-    } //size
+    } // size
 
-    //2
+    //======================================================
+    // Returns true if size() == 0 and false otherwise
+    //======================================================
     public boolean isEmpty() {
 	boolean isEmpty = false;
         if (size() == 0) {
@@ -78,19 +134,26 @@ public class DLL<E> {
 	    isEmpty = false;
 	} // if
 	return isEmpty;
-    } //isEmpty
+    } // isEmpty
 
-    //3
+    //======================================================
+    // Returns the first element in DLL
+    //======================================================
     public E first() {
         return head.getElement();
-    } //first
+    } // first
 
-    //4
+    //======================================================
+    // Returns the last element in DLL
+    //======================================================
     public E last() {
         return tail.getElement();
-    } //first
+    } // last
 
-    //5
+    //======================================================
+    // Adds a new Node containing element to the head of
+    // the DLL and sets head = newHead
+    //======================================================
     public void addFirst(E element) {
         Node<E> newHead = new Node<E>(element);
         if (isEmpty() == true) {
@@ -100,11 +163,14 @@ public class DLL<E> {
             head.setPrev(newHead);
             newHead.setNext(head);
             head = newHead;
-        } //else
+        } // if
         counter++;
-    } //addFirst
+    } // addFirst
 
-    //6
+    //======================================================
+    // Adds a new Node containing element to the tail of
+    // the DLL and sets tail = newTail
+    //======================================================
     public void addLast(E element) {
         Node <E> newTail = new Node<E>(element);
         if (isEmpty() == true) {
@@ -114,11 +180,14 @@ public class DLL<E> {
             tail.setNext(newTail);
 	    newTail.setPrev(tail);
 	    tail = newTail;
-        } //else
+        } // if
         counter++;
-    } //addLast
+    } // addLast
 
-    //7
+    //======================================================
+    // Removes the head of the DLL, sets head = head.next,
+    // and returns the removed element
+    //======================================================
     public E removeFirst() {
         E first = first();
         Node<E> oldFirst = head;
@@ -128,9 +197,12 @@ public class DLL<E> {
 	oldFirst.setElement(null);
 	counter--;
         return first;
-    } //removeFirst
+    } // removeFirst
 
-    //8
+    //======================================================
+    // Removes the tail of the DLL, sets tail = tail.prev,
+    // and returns the removed element
+    //======================================================
     public E removeLast() {
         E last = last();
 	Node<E> oldTail = tail;
@@ -140,9 +212,11 @@ public class DLL<E> {
 	oldTail.setElement(null);
         counter--;
         return last;
-    } //removeLast
+    } // removeLast
 
-    //9
+    //======================================================
+    // Prints the DLL in readable format
+    //======================================================
     public String toString() {
         String list = "null";
         if (this.isEmpty()) return list;
@@ -152,14 +226,18 @@ public class DLL<E> {
             list += current.getElement().toString();
             current = current.getNext();
             list += " <--> ";
-        } //while
+        } // for
         list += tail.getElement().toString();
         list += " --> null";
         return list;
-    } //toString
+    } // toString
 
 
-    //10
+    //======================================================
+    // Makes a shallow copy of the DLL with new Nodes con-
+    // taining references to the same and equal elements
+    // and returns the shallow copy
+    //======================================================
     public DLL clone() {
 	DLL<E> clone = new DLL<E>();
 	clone.addFirst(this.head.getElement());
@@ -171,12 +249,16 @@ public class DLL<E> {
             newNode.setPrev(previous);
             current = current.getNext();
 	    previous = previous.getNext();
-        } //for
+        } // for
         clone.addLast(current.getElement());
         return clone;
     } // clone
 
-    //11
+    //======================================================
+    // Makes a deep copy of the DLL with new Nodes contain-
+    // ing references to new and equal elements and returns
+    // the deep copy
+    //======================================================
     public DLL deepClone() {
 	DLL<E> deepClone = new DLL<E>();
 	Node<E> current = this.head;
@@ -192,12 +274,14 @@ public class DLL<E> {
 		} //for
 	    } catch(Exception e) {
 		e.printStackTrace();
-	    } // try-catch
+	    } // try
 	} // if
         return deepClone;
     } // deepClone
-
-    //12
+    
+    //======================================================
+    // Inserts element at Node index in the DLL
+    //======================================================
     public void insert (int index, E element) {
         Node<E> current = this.head;
         if (index == 0) {
@@ -218,79 +302,69 @@ public class DLL<E> {
 	    temp.setPrev(current);
 	    temp.setNext(after);;
 	    after.setPrev(temp);
-        } //else
+        } // if
         counter++;
-    } //insert
+    } // insert
 
-    //13
+    //======================================================
+    // Returns the element at Node index in the DLL and
+    // returns that element
+    //======================================================
     public E get(int index) {
         Node<E> current = head;
         for (int i = 0; i < index; i++) {
             if (current.getNext() != null) current = current.getNext();
         } //for
         return current.getElement();
-    } //get
+    } // get
 
-    //14
+    //======================================================
+    // Removes the element at Node index in the DLL and
+    // returns that element
+    //======================================================
     public E remove(int index) {
+	Node<E> previous = head;
+	Node<E> current = head;
+	E removed = head.getElement();
         if (index == 0) {
-            removeFirst();
-            return first();
+            return removeFirst();
         } else if (index == size() - 1) {
-            removeLast();
-            return last();
+            return removeLast();
         } else {
-            DLL<E> deepClone = new DLL<E>();
-            Node<E> current = this.head;
-            Node<E> newhead = null;
-            E out = null;
-            if (!this.isEmpty()) {
-                try {
-                    E elementCopy;
-                    Method m = current.element.getClass().getMethod("clone");
-                    for (int i = 0; i < size(); i++) {
-                        if (i == index) {
-                            out = current.element;
-                            current = current.next;
-                        } else {
-                            m = current.element.getClass().getMethod("clone");
-                            elementCopy = (E) m.invoke(current.element);
-                            deepClone.addLast(elementCopy);
-                            current = current.next;
-                        } //else
-                    } //for
-                } catch(Exception e) {
-                    e.printStackTrace();
-                } // try-catch
-            } // if
-            this.head = deepClone.head;
-            counter--;
-            return out;
-        } //else
+	    for(int i = 0; i < index; i++) {
+		previous = current;
+		current = current.getNext();
+	    } // for
+	    previous.setNext(current.getNext());
+	    (current.getNext()).setPrev(previous);
+	    removed = current.getElement();
+	    current.setNext(null);
+	    current.setPrev(null);
+	    current.setElement(null);
+	} // if;
+	counter--;
+	return removed;
     } // remove
 
-    //15
+    //======================================================
+    // Removes the first Node in the list whose element
+    // matches that of Node x
+    //======================================================
     public void remove(Node<E> x) {
-        Node<E> previous = x.getPrev();
-        Node<E> after = x.getNext();
-        previous.setNext(after);
-        after.setPrev(previous);
-        x.setPrev(null);
-        x.setNext(null);
-        counter--;
-        /*
-          Node<E> current = head;
-          int index = 0;
-          for (int i = 0; i < size(); i++) {
-          if (current.element == x.element) {
-          index = i;
-          } //if
-          } //for
-          remove(index);
-         */
+	Node<E> current = head;
+	int indexToRemove = 0;
+	for (int i = 0; i < size(); i++) {
+	    if (current.getElement() == x.getElement()) {
+		indexToRemove = i;
+	    } //if
+	} //for
+	remove(indexToRemove);
     } // remove
 
-    //16
+    //======================================================
+    // Locates the first Node in the DLL that contains
+    // element and returns that Node
+    //======================================================
     public Node<E> find(E element) {
         Node<E> current = head;
         Node<E> out = new Node<E>();
@@ -304,7 +378,9 @@ public class DLL<E> {
         return null;
     } // find
 
-    //17
+    //======================================================
+    // Swaps the positions of Node x and Node y in the DLL
+    //======================================================
     public void swap(Node<E> x, Node<E> y) {
 	    Node<E> temp = x;
 	    x.setNext(y.getNext());
@@ -313,18 +389,23 @@ public class DLL<E> {
 	    y.setPrev(temp.getPrev());
     } // swap
 
-    //18
+    //======================================================
+    // Sets all Nodes in the DLL to null to prepare for
+    // garbage collection
+    //======================================================
     public void clear() {
         Node<E> current = head;
         int size = size();
         for (int i = 0; i < size; i++) {
-            current.setElement(null);
-            current = current.getNext();
+            if(current.getNext() != null) remove(i);
         } //for
         counter = 0;
     } // clear
 
-    //19
+    //======================================================
+    // Sets the value at Node index to element and returns
+    // the old value at that Node
+    //======================================================
     public E set(int index, E element) {
         E out;
         Node<E> current = head;
@@ -335,4 +416,5 @@ public class DLL<E> {
         current.setElement(element);
         return out;
     } // set
+    
 } //DLL

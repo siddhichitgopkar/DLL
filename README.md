@@ -2,6 +2,6 @@ Group Members:
 Siddhi Chitgopkar
 Austin Kral
 
-Instructions to Compile
-enter "javac DLL.java" to compile the program
-to run, enter java DLL
+Instructions:
+- Enter "javac DLL.java CloneExample.java" to compile the program
+- To test, enter "java CloneExample"
