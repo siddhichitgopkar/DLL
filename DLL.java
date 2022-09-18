@@ -94,6 +94,14 @@ public class DLL<E> {
         public Node<E> getNext() {
             return this.next;
         } // getNext
+
+	//======================================================
+	// Returns a String representing the element in the
+	// calling Node
+	//======================================================
+	public String toString() {
+	    return element.toString();
+	} // toString
 	
     } // Node<E>
 
@@ -363,30 +371,35 @@ public class DLL<E> {
 
     //======================================================
     // Locates the first Node in the DLL that contains
-    // element and returns that Node
+    // element and returns that Node, otherwise returns
+    // null
     //======================================================
     public Node<E> find(E element) {
         Node<E> current = head;
-        Node<E> out = new Node<E>();
-        int size = size();
-        for (int i = 0; i < size; i++) {
-            if (current.getElement() == element) {
-                out = current;
-                return out;
-            } //if
+	Node<E> out = null;
+        for(int i = 0; i < size(); i++) {
+	    if(current.getNext() != null) {
+		current = current.getNext();
+		if(current.getElement() == element) {
+		    System.out.println(current.getElement());
+		    out = current;
+		} // if
+	    } //
         } //for
-        return null;
+	return out;
     } // find
 
     //======================================================
     // Swaps the positions of Node x and Node y in the DLL
     //======================================================
     public void swap(Node<E> x, Node<E> y) {
+	if(x != null && y != null) {
 	    Node<E> temp = x;
 	    x.setNext(y.getNext());
 	    x.setPrev(y.getPrev());
 	    y.setNext(temp.getNext());
 	    y.setPrev(temp.getPrev());
+	} // if
     } // swap
 
     //======================================================
