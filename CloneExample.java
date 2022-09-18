@@ -97,12 +97,13 @@ public class CloneExample
         DLL<Car> list = new DLL<Car>();   
         
         //Example 1
-        list.addLast(new Car("Honda"));
+	Car honda = new Car("Honda");
+        list.addLast(honda);
         list.addLast(new Car("Toyota"));
         list.addLast(new Car("BMW"));
 
         System.out.println("Example 1: Added Honda, Toyota, BMW using addLast");
-        System.out.println("Expected:\tnull <-- {Honda} <--> {Toyota} <--> {BMW} --> null");
+        System.out.println("\nExpected:\tnull <-- {Honda} <--> {Toyota} <--> {BMW} --> null");
         System.out.print("Your List:\t");
         System.out.println(list);
 
@@ -111,7 +112,7 @@ public class CloneExample
         list.removeLast();
 
         System.out.println("\nExample 2: Called removeLast two times");
-        System.out.println("Expected:\tnull <-- {Honda} --> null");
+        System.out.println("\nExpected:\tnull <-- {Honda} --> null");
         System.out.print("Your List:\t");
         System.out.println(list);
 
@@ -121,7 +122,7 @@ public class CloneExample
         list.addFirst(new Car("Volvo"));
 
         System.out.println("\nExample 3: Added Ford, Kia, Volvo using addFirst."); 
-        System.out.println("Expected:\tnull <-- {Volvo} <--> {Kia} <--> {Ford}"
+        System.out.println("\nExpected:\tnull <-- {Volvo} <--> {Kia} <--> {Ford}"
                            + " <--> {Honda} --> null");
         System.out.print("Your List:\t");
         System.out.println(list);
@@ -153,30 +154,86 @@ public class CloneExample
         System.out.println("Your Original List:\t" + list);
         System.out.println("Your Deep Copy List:\t" + listDeepCopy);
 
-	// Example 6
+	// Example 6: Testing get()
 	DLL<Car> listDeepCopy2 = list.deepClone();
 
-	System.out.println(listDeepCopy2.get(2));
-	listDeepCopy2.insert(2, new Car("Lambo"));
-	System.out.println(listDeepCopy2);
-	System.out.println(listDeepCopy2.size());
+	System.out.println("\nExample 6: Using get() to view the second element "
+			   + "in the list");
+	System.out.println("\nExpected:\t" + "{Ford}");
+	System.out.println("Your List:\t" + listDeepCopy2.get(2));
 
-	System.out.println(listDeepCopy2.isEmpty());
-	System.out.println(listDeepCopy2.first());
-	System.out.println(listDeepCopy2.last());
+	// Example 7: Testing insert()
+	System.out.println("\nExample 7: Inserting \"Lamborghini\" in the middle "
+			   + "of the list");
+	System.out.println("\nExpected:\t" + "null <-- {Jeep} <--> {Kia} <--> "
+			   + "{Lamborghini} <--> {Ford} <--> {Honda} --> null");
+	Car lambo = new Car("Lamborghini");
+	listDeepCopy2.insert(2, lambo);
+	System.out.println("Your List:\t" + listDeepCopy2);
+
+	// Example 8: Testing size()
+	System.out.println("\nExample 8: Checking the size of the list");
+	System.out.println("\nExpected:\t" + "5");
+	System.out.println("Your List:\t" + listDeepCopy2.size());
+
+	// Example 9: Testing isEmpty()
+	System.out.println("\nExample 9: Checking to see if the list is empty");
+	System.out.println("\nExpected:\t" + "false");
+	System.out.println("Your List:\t" + listDeepCopy2.isEmpty());
+	
+	// Example 10: Testing first() and last()
+	System.out.println("\nExample 10: Retrieving the first and last elements "
+			   + "in the list");
+	System.out.println("\nExpected:\t" + "{Jeep}, {Honda}");
+	System.out.println("Your List:\t" + listDeepCopy2.first() + ", "
+			   + listDeepCopy2.last());
+
+	// Example 11: Testing removeFirst();
+	System.out.println("\nExample 10: Removing the first element from the list");
+	System.out.println("\nExpected:\t" + "null <-- {Kia} <--> {Lamborghini} <--> "
+			   + "{Ford} <--> {Honda} --> null");
 	listDeepCopy2.removeFirst();
-	System.out.println(listDeepCopy2);
-	System.out.println(listDeepCopy2.size());
-	// listDeepCopy2.remove(2);
-	// System.out.println(listDeepCopy2);
-	// System.out.println(listDeepCopy2.size());
-	// System.out.println(listDeepCopy2.find());
+	System.out.println("Your List:\t" + listDeepCopy2);
+
+	// Example 12: Changing the second element of the list
+	System.out.println("\nExample 12: Changing the second element of the list "
+			   + "using the set() method");
+	System.out.println("\nExpected:\t" + "null <-- {Kia} <--> {Civic} <--> "
+			   + "{Ford} <--> {Honda} --> null");
 	Car civic = new Car("Civic");
 	listDeepCopy2.set(1, civic);
-	System.out.println("Remove method: " + listDeepCopy2.remove(2));
-	System.out.println(listDeepCopy2);
-	System.out.println(listDeepCopy2.size());
+	System.out.println("Your List:\t" + listDeepCopy2);
+
+	// Example 13: Removing an element from the middle of the list
+	System.out.println("\nExample 13: Removing an element from the middle of the "
+			   + "list");
+	System.out.println("\nExpected:\t" + "null <-- {Kia} <--> {Civic} <--> "
+			   + "{Honda} --> null");
+	listDeepCopy2.remove(2);
+	System.out.println("Your List:\t" + listDeepCopy2);
+
+	// Example 14: Finding an element in the list
+	System.out.println("\nExample 14: Finding an element in the list");
+	System.out.println("\nExpected:\t" + "{Civic}");
+	System.out.println("Your list:\t" + listDeepCopy2.find(civic));
+	
+	// Example 15: Swapping two elements in the list
+	DLL.Node second = listDeepCopy2.find(civic);
+	System.out.println(second);
+	DLL.Node third = listDeepCopy2.find(honda);
+	System.out.println(third);
+	System.out.println("\nExample 15: Swapping the second and third elements in "
+			   + "list");
+	System.out.println("\nExpected:\t" + "null <-- {Kia} <--> {Honda} <--> "
+			   + "{Civic} --> null");
+	listDeepCopy2.swap(second, third);
+	System.out.println("Your list:\t" + listDeepCopy2);
+	
+	// Example 16: Clearing the list
+	System.out.println("\nExample 14: Clearing all elements from the list");
 	listDeepCopy2.clear();
-	System.out.println(listDeepCopy2.size());
+	System.out.println("\nExpected:\t" + "size = 0; list = null");
+	System.out.println("Your List:\t" + "size = " + listDeepCopy2.size()
+			   + "; list = " + listDeepCopy2);
     }
 }
