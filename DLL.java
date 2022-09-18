@@ -393,35 +393,31 @@ public class DLL<E> {
     // Swaps the positions of Node x and Node y in the DLL
     //======================================================
     public void swap(Node<E> x, Node<E> y) {
+	if (head == null || head.getNext() == null || x == y) return;
 	Node<E> n1 = head, n2 = head;
-	if (x == head) head = y;
-	else if (y == head) head = x;
-	if (x == tail) tail = y;
-	else if (y == tail) tail = x;
 	while(n1 != x) n1 = n1.getNext();
 	while(n2 != y) n2 = n2.getNext();
+	if (x == head) {
+	    head = y;
+	} else if (y == head) {
+	    head = x;
+	} // if
+	if (x == tail) {
+	    tail = y;
+	} else if (y == tail) {
+	    tail = x;
+	} // if 
 	Node<E> temp;
 	temp = n1.getNext();
 	n1.setNext(n2.getNext());
 	n2.setNext(temp);
-
-	if (n1.getNext() != null) {
-	    n1.getNext().setPrev(n1);
-	}
-	if (n2.getNext() != null) {
-	    n2.getNext().setPrev(n2);
-	}
-
+	if (n1.getNext() != null) n1.getNext().setPrev(n1);
+	if (n2.getNext() != null) n2.getNext().setPrev(n2);
 	temp = n1.getPrev();
 	n1.setPrev(n2.getPrev());
 	n2.setPrev(temp);
-
-       	if (n1.getPrev() != null) {
-	    n1.getPrev().setNext(n1);
-	}
-	if (n2.getPrev() != null) {
-	    n2.getPrev().setNext(n2);
-	}
+       	if (n1.getPrev() != null) n1.getPrev().setNext(n1);
+	if (n2.getPrev() != null) n2.getPrev().setNext(n2);
     } // swap
 
     //======================================================
