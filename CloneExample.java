@@ -222,10 +222,6 @@ public class CloneExample
 	DLL.Node first = listDeepCopy2.find(kia);
 	DLL.Node second = listDeepCopy2.find(civic);
 	DLL.Node third = listDeepCopy2.find(honda);
-	Car toyota = new Car("Toyota");
-	listDeepCopy2.addLast(toyota);
-	listDeepCopy2.addLast(new Car("Mercedes"));
-	DLL.Node fourth = listDeepCopy2.find(toyota);
 	System.out.println("\n" + first);
 	System.out.println("\n" + second);
 	System.out.println("\n" + third);
@@ -233,7 +229,7 @@ public class CloneExample
 			   + "list");
 	System.out.println("\nExpected:\t" + "null <-- {Kia} <--> {Honda} <--> "
 			   + "{Civic} --> null");
-	listDeepCopy2.swap(second, fourth);
+	listDeepCopy2.swap(second, third);
         System.out.println("Your list:\t" + listDeepCopy2);
 	
 	// Example 16: Clearing the list
