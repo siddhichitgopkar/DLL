@@ -118,7 +118,8 @@ public class CloneExample
 
         //Example 3
         list.addFirst(new Car("Ford"));
-        list.addFirst(new Car("Kia"));
+	Car kia = new Car("Kia");
+        list.addFirst(kia);
         list.addFirst(new Car("Volvo"));
 
         System.out.println("\nExample 3: Added Ford, Kia, Volvo using addFirst."); 
@@ -218,16 +219,22 @@ public class CloneExample
 	System.out.println("Your list:\t" + listDeepCopy2.find(civic));
 	
 	// Example 15: Swapping two elements in the list
+	DLL.Node first = listDeepCopy2.find(kia);
 	DLL.Node second = listDeepCopy2.find(civic);
-	System.out.println(second);
 	DLL.Node third = listDeepCopy2.find(honda);
-	System.out.println(third);
+	Car toyota = new Car("Toyota");
+	listDeepCopy2.addLast(toyota);
+	listDeepCopy2.addLast(new Car("Mercedes"));
+	DLL.Node fourth = listDeepCopy2.find(toyota);
+	System.out.println("\n" + first);
+	System.out.println("\n" + second);
+	System.out.println("\n" + third);
 	System.out.println("\nExample 15: Swapping the second and third elements in "
 			   + "list");
 	System.out.println("\nExpected:\t" + "null <-- {Kia} <--> {Honda} <--> "
 			   + "{Civic} --> null");
-	listDeepCopy2.swap(second, third);
-	System.out.println("Your list:\t" + listDeepCopy2);
+	listDeepCopy2.swap(second, fourth);
+        System.out.println("Your list:\t" + listDeepCopy2);
 	
 	// Example 16: Clearing the list
 	System.out.println("\nExample 14: Clearing all elements from the list");

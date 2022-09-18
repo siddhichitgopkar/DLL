@@ -273,10 +273,9 @@ public class DLL<E> {
 	if (!this.isEmpty()) {
 	    try {
 	        E elementCopy;
-		Method m = current.getElement().getClass().getMethod("clone");
+		Method clone = current.getElement().getClass().getMethod("clone");
 		for (int i = 0; i < size(); i++) {
-		    m = current.getElement().getClass().getMethod("clone");
-		    elementCopy = (E) m.invoke(current.getElement());
+		    elementCopy = (E) clone.invoke(current.getElement());
 		    deepClone.addLast(elementCopy);
 		    current = current.getNext();
 		} //for
@@ -376,30 +375,44 @@ public class DLL<E> {
     //======================================================
     public Node<E> find(E element) {
         Node<E> current = head;
-	Node<E> out = null;
-        for(int i = 0; i < size(); i++) {
-	    if(current.getNext() != null) {
-		current = current.getNext();
-		if(current.getElement() == element) {
-		    System.out.println(current.getElement());
-		    out = current;
+	try {
+	    Method equals = current.getElement().getClass().getMethod("equals", current.getElement().getClass());
+	    while(current != null) {
+		if ((boolean)equals.invoke(current.getElement(), element)) {
+		    return current;
 		} // if
-	    } //
-        } //for
-	return out;
+		current = current.getNext();
+	    } // while
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} // try
+	return null;
     } // find
 
     //======================================================
     // Swaps the positions of Node x and Node y in the DLL
     //======================================================
     public void swap(Node<E> x, Node<E> y) {
-	if(x != null && y != null) {
-	    Node<E> temp = x;
-	    x.setNext(y.getNext());
-	    x.setPrev(y.getPrev());
-	    y.setNext(temp.getNext());
-	    y.setPrev(temp.getPrev());
-	} // if
+	Node<E> n1 = head, n2 = head;
+	/*if (x == head) head = y;
+	if (y == head) head = x;
+	if (x == tail) tail = y;
+	if (y == tail) tail = x;*/
+	while(n1 != x) n1 = n1.getNext();
+	while(n2 != y) n2 = n2.getNext();
+	Node<E> n1Prev = n1.getPrev(), n1Next = n1.getNext();
+	System.out.println(n1Prev.getElement());
+	System.out.println(n1Next.getElement());
+	System.out.println(n2.getPrev().getElement());
+	System.out.println(n2.getNext().getElement());
+	n1.setPrev(n2.getPrev());
+	n1.setNext(n2.getNext());
+	System.out.println(n1Prev.getElement());
+	System.out.println(n1Next.getElement());
+	n2.setPrev(n1Prev);
+	n2.setNext(n1Next);
+	System.out.println(n2.getPrev().getElement());
+	System.out.println(n2.getNext().getElement());
     } // swap
 
     //======================================================
